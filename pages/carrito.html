@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="../src/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Tienda Ropa</a>
+                <a class="navbar-brand" href="../index.html">Tienda Ropa</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -60,18 +60,25 @@
         </nav>
     </header>
     <main>
-        <div class="container-fluid mx-auto mt-2">
-            <button class="btn btn-primary mx-auto" id="ordenarPrecio">
-                Ordernar por precio
-            </button>
-            <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 d-flex justify-content-center p-2" id="productos">
+        <div class="container p-2 mt-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="productos">
 
-            </div>
+                </tbody>
+            </table>
         </div>
     </main>
     <footer>
     </footer>
 </body>
-<script src="src/main.js"></script>
+<script src="../src/carro.js"></script>
 
 </html>
