@@ -1,22 +1,19 @@
 $(document).ready(() => {
 
-    const tarjetaProducto = (titulo, imgs, precio, description, id) => {
+    //creación de la tarjeta del producto
+    const tarjetaProducto = (titulo, imgs, precio, id) => {
         let html = `
         <div class="card">
-            <div class="row g-0" >
-                <div class="col-md-4 mx-auto my-auto">
-                    <img src="${imgs}" alt="..." class="img-fluid p-1">
-                </div>
-                <div class="col-md-8">
+            
+                <img src="${imgs}" alt="..." class="card-img p-3">
+            
                 <div class="card-body">
-                    <h5 class="card-title" id="titulo">${titulo}</h5>
-                    <p class="card-text" id="descripcion">${description}</p>
-                    
+                    <h5 class="card-title" id="titulo">${titulo}</h5>            
                         <hr/>                    
-                        <div class="d-flex flex-row justify-content-end">
-                            <p class="card-text text-end mx-1" id='precio'><strong>$ ${precio}</strong></p>
-                            <button class='btn btn-primary mx-2' id='${id}'>Agregar</button>
-                        </div>
+                    <div class="d-flex flex-row justify-content-end">
+                        <p class="card-text text-end mx-1" id='precio'><strong>$ ${precio}</strong></p>
+                        <button class='btn btn-dark mx-2' id='${id}'>Ver Más</button>
+                    </div>
                     
                 </div>
                 </div>
@@ -44,6 +41,7 @@ $(document).ready(() => {
 
     });
 
+    //Mostrar productos en la página
     const mostrarProductos = () => {
         $("#productos").empty();
         dataResult.map(producto => {
@@ -52,14 +50,13 @@ $(document).ready(() => {
                     producto.title,
                     producto.image,
                     producto.price,
-                    producto.description,
                     producto.id
                 )
             );
         });
     }
 
-
+    // ordernar por precio
     $("#ordenarPrecio").click(() => {
         dataResult.sort((a, b) => {
             if (a.price > b.price) {
@@ -71,6 +68,16 @@ $(document).ready(() => {
         mostrarProductos();
     })
 
+    
+
+    const productos = document.getElementById('productos');
+
+    productos.addEventListener('click', e => {
+        addProducto(e)
+    });
+
+
+    //mostrar en html carrito
     const agregarCarrito = (nombre, precio, id) => {
         let liElement = document.createElement('li');
 
@@ -80,14 +87,9 @@ $(document).ready(() => {
         $("#carrito").append(liElement);
     };
 
-    const productos = document.getElementById('productos');
-
-    productos.addEventListener('click', e => {
-        addProducto(e)
-    });
-
+    //obtener el boton y enviar la información
     const addProducto = (e) => {
-        if (e.target.classList.contains('btn-primary')) {
+        if (e.target.classList.contains('btn-dark')) {
             setCarro(e.target.parentElement.parentElement);
         }
 
@@ -95,33 +97,42 @@ $(document).ready(() => {
     };
 
     const setCarro = (objeto) => {
-        
-        agregarCarrito(objeto.querySelector('h5').textContent, objeto.querySelector('#precio').textContent,  objeto.querySelector('.btn-primary').id)
+        //agregar en el carrito en base al texto escrito en la card
+        agregarCarrito(objeto.querySelector('h5').textContent, objeto.querySelector('#precio').textContent,  objeto.querySelector('.btn-dark').id)
+        let id = objeto.querySelector('.btn-dark').id;
+        sessionStorage.setItem('producto', JSON.stringify(id));
+        location.href = '../pages/producto.html';
     };
 
     
-
+    //Borrar carrito
     $("#borrarCarrito").click(() => {
         $("#carrito").empty();
     });
-
+    //Recuperar el carrito
     var aValue = localStorage.getItem('carrito');
-    console.log(aValue);
+    // console.log(aValue);
 
-    $("#pagarCarrito").click((e) => {
-        // guardar los id en el carro
-        let ids = $("#carrito").find('h4').text();
-        let cortados = ids.split('/')
-        cortados.pop();
-        console.log(cortados);
-        // console.log(cortados[cortados.length - 1]);
-        localStorage.setItem('carrito', JSON.stringify(cortados));
-        window.location.href = './pages/carrito.html';
-    });
+
+    //guardar carrito directamente
+    // VERSION PREVIA, AHORA SE USA EL CARD => DETALLE => GUARDAR EN LOCALSTORAGE
+    // $("#pagarCarrito").click((e) => {
+    //     // guardar los id en el carro
+    //     let ids = $("#carrito").find('h4').text();
+    //     let cortados = ids.split('/')
+    //     cortados.pop();
+    //     console.log(cortados);
+    //     // console.log(cortados[cortados.length - 1]);
+    //     localStorage.setItem('carrito', JSON.stringify(cortados));
+        
+    //     window.location.href = './pages/carrito.html';
+    // });
 
     
 
     // validaciones de registro
+
+    //Esto hay que moverlo a otra carpeta
     $("#registro-form").validate({
         rules: {
             nombre: "required",
